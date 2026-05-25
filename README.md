@@ -19,51 +19,56 @@ To write a program to predict the type of species of the Iris flower using the S
 
 ## Program:
 ```
-Program to implement the prediction of iris species using SGD Classifier.
+Program to implement the the Logistic Regression Using Gradient Descent.
 Developed by: Hemapriya P
 RegisterNumber:  212225040126
 
 import pandas as pd
-import numpy as np
+from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import SGDClassifier
-from sklearn.metrics import confusion_matrix, accuracy_score, classification_report
-data = {
-    'Hours_Studied': [2, 3, 4, 5, 6, 7, 8, 9],
-    'Previous_Score': [40, 50, 55, 60, 65, 70, 75, 80],
-    'Internship': [0, 0, 1, 0, 1, 1, 1, 1],  # 0 = No, 1 = Yes
-    'Placement': [0, 0, 0, 1, 1, 1, 1, 1]    # Target: 0 = Not Placed, 1 = Placed
-}
+from sklearn.metrics import accuracy_score, confusion_matrix
+import matplotlib.pyplot as plt
 
-df = pd.DataFrame(data)
-X = df[['Hours_Studied', 'Previous_Score', 'Internship']]
-y = df['Placement']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
-scaler = StandardScaler()
-X_train = scaler.fit_transform(X_train)
-X_test = scaler.transform(X_test)
-sgd_model = SGDClassifier(loss='log_loss',      
-                          max_iter=1000,
-                          learning_rate='optimal',
-                          random_state=42)
-sgd_model.fit(X_train, y_train)
-y_pred = sgd_model.predict(X_test)
-y_prob = sgd_model.predict_proba(X_test)  
-print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
-print("\nAccuracy Score:", accuracy_score(y_test, y_pred))
-print("\nClassification Report:\n", classification_report(y_test, y_pred))
-new_student = np.array([[6, 68, 1]])  
-new_student_scaled = scaler.transform(new_student)
-placement_pred = sgd_model.predict(new_student_scaled)
-placement_prob = sgd_model.predict_proba(new_student_scaled)
-print(f"\nPredicted Placement Status: {'Placed' if placement_pred[0]==1 else 'Not Placed'}")
-print(f"Probability of Placement: {placement_prob[0][1]:.2f}")
+iris = load_iris()
+
+X = iris.data
+
+y = iris.target
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+model = SGDClassifier()
+
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+print("Accuracy:", accuracy_score(y_test, y_pred))
+
+print("Confusion Matrix:")
+print(confusion_matrix(y_test, y_pred))
+
+new_flower = [[5.1, 3.5, 1.4, 0.2]]
+
+prediction = model.predict(new_flower)
+
+print("Predicted Species:", iris.target_names[prediction][0])
+
+plt.scatter(X[:,0], X[:,1], c=y)
+
+plt.xlabel("Sepal Length")
+plt.ylabel("Sepal Width")
+plt.title("Iris Flower Classification")
+
+plt.show()
 ```
 
 ## Output:
 
-<img width="1171" height="418" alt="image" src="https://github.com/user-attachments/assets/1c9103bf-6e94-48e0-8f37-73142cb4b54e" />
+<img width="1205" height="721" alt="image" src="https://github.com/user-attachments/assets/73063889-24ab-4dca-a5fd-1729ba1b281d" />
 
 ## Result:
 Thus, the program to implement the prediction of the Iris species using SGD Classifier is written and verified using Python programming.
