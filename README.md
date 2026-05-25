@@ -15,7 +15,9 @@ To write a program to predict the type of species of the Iris flower using the S
 
 4.Split the dataset into training and testing sets. 
 
-5.Create and train the SGD Classifier model using the training data. 6.Predict the test data results, calculate accuracy, and display the classification report.
+5.Create and train the SGD Classifier model using the training data. 
+
+6.Predict the test data results, calculate accuracy, and display the classification report.
 
 ## Program:
 ```
